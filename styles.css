@@ -897,6 +897,10 @@ p {
     display: none;
   }
 
+  .header-actions {
+    display: none;
+  }
+
   .hero {
     min-height: auto;
     padding: var(--spacing-xl) 0;
