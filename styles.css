@@ -903,7 +903,7 @@ p {
 
   .hero {
     min-height: auto;
-    padding: calc(var(--spacing-xl) + 60px) 0 var(--spacing-xl) 0;
+    padding: 140px 0 var(--spacing-xl) 0;
   }
 
   .hero-bullets {
