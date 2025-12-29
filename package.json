@@ -1,0 +1,20 @@
+{
+  "name": "servicobros-website",
+  "version": "1.0.0",
+  "description": "Servicobros - Recuperación de Créditos y Gestión de Cobros",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "build": "node scripts/build.js"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "servicobros"
+  ],
+  "author": "Forways",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

@@ -1,0 +1,16 @@
+name = "servicobros-website"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# Workers Sites configuration
+[site]
+bucket = "./public"
+
+# Routes configuration (add your domain here when ready)
+# routes = [
+#   { pattern = "servicobros.com", custom_domain = true }
+# ]
+
+# Environment variables (if needed)
+# [vars]
+# ENVIRONMENT = "production"
