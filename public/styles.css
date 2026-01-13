@@ -5,8 +5,8 @@
 /* === CSS Variables & Design Tokens === */
 :root {
   /* Primary Colors - Based on Logo */
-  --primary-navy: #1a2b4a;
-  --primary-blue: #2c4875;
+  --primary-navy: #004586;
+  --primary-blue: #005bb5;
   --accent-orange: #ff6b35;
   --accent-coral: #ff8c61;
 
@@ -464,11 +464,12 @@ p {
 }
 
 .service-card li::before {
-  content: '✓';
+  content: '\f00c';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
   position: absolute;
   left: 0;
   color: var(--accent-orange);
-  font-weight: bold;
 }
 
 /* === Why Choose Us Section === */
@@ -527,32 +528,28 @@ p {
   margin-bottom: var(--spacing-xl);
 }
 
-.affiliations-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--spacing-lg);
+.affiliations-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
 }
 
-.affiliation-card {
-  background: var(--white);
-  padding: var(--spacing-lg);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
+.affiliation-item {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 100px;
-  font-size: 1rem;
-  font-weight: 600;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1.1rem;
   color: var(--primary-navy);
-  transition: all var(--transition-base);
-  border: 2px solid transparent;
+  font-family: var(--font-secondary);
 }
 
-.affiliation-card:hover {
-  border-color: var(--accent-orange);
-  box-shadow: var(--shadow-md);
-  transform: scale(1.05);
+.affiliation-item i {
+  color: var(--accent-orange);
+  font-size: 1.2rem;
 }
 
 /* === Testimonials Section === */
@@ -897,9 +894,13 @@ p {
     display: none;
   }
 
+  .header-actions {
+    display: none;
+  }
+
   .hero {
     min-height: auto;
-    padding: var(--spacing-xl) 0;
+    padding: 180px 0 var(--spacing-xl) 0;
   }
 
   .hero-bullets {

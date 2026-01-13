@@ -1,59 +1,63 @@
 import { getAssetFromKV } from '@cloudflare/kv-asset-handler';
+import manifestJSON from '__STATIC_CONTENT_MANIFEST';
+const assetManifest = JSON.parse(manifestJSON);
 
-/**
- * Cloudflare Worker para servir el sitio web de Servicobros
- */
 export default {
   async fetch(request, env, ctx) {
     try {
-      // Serve static assets from Workers Sites
-      const asset = await getAssetFromKV(
-        {
-          request,
-          waitUntil: ctx.waitUntil.bind(ctx),
-        },
-        {
-          ASSET_NAMESPACE: env.__STATIC_CONTENT,
-          ASSET_MANIFEST: JSON.parse(__STATIC_CONTENT_MANIFEST),
-          cacheControl: {
-            browserTTL: 31536000, // 1 year
-            edgeTTL: 2592000, // 30 days
-            bypassCache: false,
-          },
-        }
-      );
-
-      // Add custom headers
-      const response = new Response(asset.body, asset);
-      
-      // Security headers
-      response.headers.set('X-Content-Type-Options', 'nosniff');
-      response.headers.set('X-Frame-Options', 'SAMEORIGIN');
-      response.headers.set('X-XSS-Protection', '1; mode=block');
-      response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-      
-      // Cache control based on file type
+      // Add logic to handle the root path
       const url = new URL(request.url);
-      const pathname = url.pathname;
-      
-      if (pathname.endsWith('.html') || pathname === '/') {
-        // Cache HTML for 1 hour
-        response.headers.set('Cache-Control', 'public, max-age=3600, must-revalidate');
-      } else if (pathname.match(/\.(css|js)$/)) {
-        // Cache CSS/JS for 1 year
-        response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
-      } else if (pathname.match(/\.(jpg|jpeg|png|gif|webp|svg|ico)$/)) {
-        // Cache images for 1 year
-        response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
-      }
 
-      return response;
-    } catch (error) {
-      // Fallback to 404 page
-      return new Response('404 Not Found', {
-        status: 404,
-        headers: { 'Content-Type': 'text/plain' },
-      });
+      const options = {
+        ASSET_NAMESPACE: env.__STATIC_CONTENT,
+        ASSET_MANIFEST: assetManifest,
+        cacheControl: {
+          browserTTL: 60 * 60 * 24 * 365, // 1 year
+          edgeTTL: 60 * 60 * 24 * 2, // 2 days
+          bypassCache: false,
+        },
+      };
+
+      try {
+        const page = await getAssetFromKV(
+          {
+            request,
+            waitUntil: ctx.waitUntil.bind(ctx),
+          },
+          options
+        );
+
+        const response = new Response(page.body, page);
+
+        response.headers.set('X-XSS-Protection', '1; mode=block');
+        response.headers.set('X-Content-Type-Options', 'nosniff');
+        response.headers.set('X-Frame-Options', 'DENY');
+        response.headers.set('Referrer-Policy', 'unsafe-url');
+        response.headers.set('Feature-Policy', 'none');
+
+        return response;
+
+      } catch (e) {
+        // if an error is thrown try to serve the 404 page
+        if (!DEBUG) {
+          try {
+            let notFoundResponse = await getAssetFromKV(
+              {
+                request: new Request(`${new URL(request.url).origin}/404.html`, request),
+                waitUntil: ctx.waitUntil.bind(ctx),
+              },
+              options
+            );
+            return new Response(notFoundResponse.body, { ...notFoundResponse, status: 404 });
+          } catch (e) { }
+        }
+
+        return new Response(e.message || e.toString(), { status: 500 });
+      }
+    } catch (e) {
+      return new Response('Internal Error', { status: 500 });
     }
   },
 };
+
+const DEBUG = false;
