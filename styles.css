@@ -372,13 +372,15 @@ p {
 }
 
 .services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
 }
 
 .service-card {
+  flex: 0 1 340px;
   background: var(--white);
   padding: 0;
   border-radius: var(--radius-lg);
@@ -473,53 +475,109 @@ p {
 }
 
 /* === Why Choose Us Section === */
+/* === Why Choose Us Section === */
 .why-choose {
-  background: var(--gradient-primary);
-  color: var(--white);
+  background: #0f172a;
+  position: relative;
+  overflow: hidden;
+  padding: var(--spacing-xxl) 0;
+}
+
+/* Subtle background glow */
+.why-choose::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(0, 91, 181, 0.15) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .why-choose h2 {
   color: var(--white);
   text-align: center;
   margin-bottom: var(--spacing-xl);
+  font-size: 2.5rem;
+  background: linear-gradient(to right, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--spacing-lg);
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--spacing-sm);
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .feature-item {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  padding: var(--spacing-lg);
-  border-radius: var(--radius-lg);
+  background: transparent;
+  padding: var(--spacing-md) var(--spacing-sm);
+  border-radius: var(--radius-md);
   text-align: center;
-  transition: all var(--transition-base);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .feature-item:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-8px);
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .feature-icon {
-  width: 80px;
-  height: 80px;
-  background: var(--gradient-accent);
-  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto var(--spacing-md);
-  font-size: 2rem;
+  margin-bottom: var(--spacing-md);
+  font-size: 1.5rem;
+  color: var(--accent-orange);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover .feature-icon {
+  background: var(--accent-orange);
+  color: var(--white);
+  transform: scale(1.1);
+  box-shadow: 0 10px 20px -5px rgba(255, 107, 53, 0.3);
+}
+
+/* Responsive adjustment */
+@media (max-width: 900px) {
+  .features-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--spacing-md);
+  }
 }
 
 .feature-item h3 {
   color: var(--white);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.feature-item:hover h3 {
+  color: var(--white);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 /* === Affiliations Section === */
@@ -747,27 +805,28 @@ p {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-md);
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
   transition: all var(--transition-base);
   margin-bottom: var(--spacing-sm);
 }
 
 .footer-phone-link:hover .footer-phone-container {
-  background: rgba(255, 255, 255, 0.15);
+  background: transparent;
   transform: translateX(4px);
+  opacity: 0.8;
 }
 
 .phone-icon {
   flex-shrink: 0;
-  color: var(--accent-orange);
+  color: var(--white);
 }
 
 .footer-phone {
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--accent-orange);
+  color: var(--white);
 }
 
 .footer-address {
