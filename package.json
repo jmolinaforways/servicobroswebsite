@@ -12,7 +12,7 @@
     "workers",
     "servicobros"
   ],
-  "author": "Forways",
+  "author": "Forways (https://forways.com.do/)",
   "license": "MIT",
   "devDependencies": {
     "@cloudflare/kv-asset-handler": "^0.4.1",

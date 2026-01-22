@@ -133,7 +133,7 @@ ENVIRONMENT = "production"
 
 ## 🎨 Diseño
 
-Diseñado y desarrollado por [**Forways**](https://forways.com.do/)
+Diseñado y desarrollado por [**Forways**](https://forways.com.do/) - *Soluciones Digitales y Web Development*
 
 ## 📄 Licencia
 
